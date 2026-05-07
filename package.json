@@ -1,6 +1,6 @@
 {
-  "name": "algo-viz",
-  "displayName": "Algo Viz - MD to Animation",
+  "name": "note2video",
+  "displayName": "Note2Video - MD to Animation",
   "description": "Convert Markdown notes to 3Blue1Brown-style teaching animations using Manim + LLM",
   "version": "0.1.0",
   "publisher": "24kchengYe",
@@ -14,82 +14,82 @@
   "contributes": {
     "commands": [
       {
-        "command": "algo-viz.animateFile",
-        "title": "Algo Viz: Animate This File",
+        "command": "note2video.animateFile",
+        "title": "Note2Video: Animate This File",
         "icon": "$(play)"
       },
       {
-        "command": "algo-viz.animateSelection",
-        "title": "Algo Viz: Animate Selection"
+        "command": "note2video.animateSelection",
+        "title": "Note2Video: Animate Selection"
       },
       {
-        "command": "algo-viz.configureApiKey",
-        "title": "Algo Viz: Configure API Key"
+        "command": "note2video.configureApiKey",
+        "title": "Note2Video: Configure API Key"
       },
       {
-        "command": "algo-viz.openLastVideo",
-        "title": "Algo Viz: Open Last Video"
+        "command": "note2video.openLastVideo",
+        "title": "Note2Video: Open Last Video"
       }
     ],
     "menus": {
       "explorer/context": [
         {
           "when": "resourceLangId == markdown",
-          "command": "algo-viz.animateFile",
-          "group": "algo-viz@1"
+          "command": "note2video.animateFile",
+          "group": "note2video@1"
         }
       ],
       "editor/context": [
         {
           "when": "editorLangId == markdown",
-          "command": "algo-viz.animateFile",
-          "group": "algo-viz@1"
+          "command": "note2video.animateFile",
+          "group": "note2video@1"
         },
         {
           "when": "editorHasSelection",
-          "command": "algo-viz.animateSelection",
-          "group": "algo-viz@2"
+          "command": "note2video.animateSelection",
+          "group": "note2video@2"
         }
       ],
       "editor/title": [
         {
           "when": "editorLangId == markdown",
-          "command": "algo-viz.animateFile",
+          "command": "note2video.animateFile",
           "group": "navigation"
         }
       ]
     },
     "configuration": {
-      "title": "Algo Viz",
+      "title": "Note2Video",
       "properties": {
-        "algoViz.pythonPath": {
+        "note2video.pythonPath": {
           "type": "string",
           "default": "python",
           "description": "Path to Python executable"
         },
-        "algoViz.apiGeneratePath": {
+        "note2video.apiGeneratePath": {
           "type": "string",
-          "default": "D:/pythonPycharms/My_jupyerlab/tools/algo-viz/api_generate.py",
+          "default": "D:/pythonPycharms/My_jupyerlab/tools/note2video/api_generate.py",
           "description": "Path to api_generate.py"
         },
-        "algoViz.platform": {
+        "note2video.platform": {
           "type": "string",
           "enum": ["openrouter", "mindcraft", "ablai"],
           "default": "openrouter",
           "description": "LLM API platform"
         },
-        "algoViz.model": {
+        "note2video.model": {
           "type": "string",
           "default": "qwen/qwen3-235b-a22b",
           "description": "LLM model name"
         },
-        "algoViz.quality": {
+        "note2video.quality": {
           "type": "string",
           "enum": ["l", "m", "h"],
           "default": "m",
           "description": "Video quality: l=480p, m=720p, h=1080p"
         },
-        "algoViz.apiKey": {
+        "note2video.apiKey": {
           "type": "string",
           "default": "",
           "description": "API key (stored in VS Code settings, or use .env file)"

@@ -1,14 +1,14 @@
-# Algo Viz — VS Code Extension
+# Note2Video — VS Code Extension
 
 Convert Markdown notes to 3Blue1Brown-style teaching animation videos, right from your editor.
 
 ## Features
 
-- **Right-click MD file** → "Algo Viz: Animate This File"
-- **Select text** → Right-click → "Algo Viz: Animate Selection"
+- **Right-click MD file** → "Note2Video: Animate This File"
+- **Select text** → Right-click → "Note2Video: Animate Selection"
 - **Built-in video preview** with playback speed control (0.5x ~ 2x)
 - **Progress notifications** — see LLM call → code gen → render → stitch progress
-- **Output panel** — detailed logs in Output > Algo Viz
+- **Output panel** — detailed logs in Output > Note2Video
 
 ## How it works
 
@@ -29,9 +29,9 @@ Plugin shows preview in VS Code Webview
 ## Setup
 
 1. Install the extension (`.vsix` file)
-2. Open Command Palette → "Algo Viz: Configure API Key"
+2. Open Command Palette → "Note2Video: Configure API Key"
 3. Select platform (OpenRouter recommended) and enter API key
-4. Right-click any `.md` file → "Algo Viz: Animate This File"
+4. Right-click any `.md` file → "Note2Video: Animate This File"
 
 ## Requirements
 
@@ -39,18 +39,18 @@ Plugin shows preview in VS Code Webview
 - ManimCE (`pip install manim`)
 - ffmpeg
 - LaTeX (TexLive)
-- [algo-viz](https://github.com/24kchengYe/algo-viz) backend
+- [note2video](https://github.com/24kchengYe/note2video) backend
 
 ## Settings
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `algoViz.pythonPath` | `python` | Python executable |
-| `algoViz.apiGeneratePath` | `D:/.../api_generate.py` | Path to backend script |
-| `algoViz.platform` | `openrouter` | API platform |
-| `algoViz.model` | `qwen/qwen3-235b-a22b` | LLM model |
-| `algoViz.quality` | `m` | Video quality (l/m/h) |
-| `algoViz.apiKey` | (empty) | API key |
+| `note2video.pythonPath` | `python` | Python executable |
+| `note2video.apiGeneratePath` | `D:/.../api_generate.py` | Path to backend script |
+| `note2video.platform` | `openrouter` | API platform |
+| `note2video.model` | `qwen/qwen3-235b-a22b` | LLM model |
+| `note2video.quality` | `m` | Video quality (l/m/h) |
+| `note2video.apiKey` | (empty) | API key |
 
 ---
 
@@ -60,6 +60,6 @@ Plugin shows preview in VS Code Webview
 
 ---
 
-![Visitors](https://visitor-badge.laobi.icu/badge?page_id=24kchengYe.algo-viz-vscode)
+![Visitors](https://visitor-badge.laobi.icu/badge?page_id=24kchengYe.note2video-vscode)
 
-[![Star History](https://starchart.cc/24kchengYe/algo-viz-vscode.svg)](https://starchart.cc/24kchengYe/algo-viz-vscode)
+<!-- Star History: https://star-history.com/#24kchengYe/note2video-vscode -->

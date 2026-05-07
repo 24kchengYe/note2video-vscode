@@ -7,16 +7,16 @@ let outputChannel: vscode.OutputChannel;
 let lastVideoPath: string | undefined;
 
 export function activate(context: vscode.ExtensionContext) {
-    outputChannel = vscode.window.createOutputChannel('Algo Viz');
+    outputChannel = vscode.window.createOutputChannel('Note2Video');
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('algo-viz.animateFile', animateFile),
-        vscode.commands.registerCommand('algo-viz.animateSelection', animateSelection),
-        vscode.commands.registerCommand('algo-viz.configureApiKey', configureApiKey),
-        vscode.commands.registerCommand('algo-viz.openLastVideo', openLastVideo),
+        vscode.commands.registerCommand('note2video.animateFile', animateFile),
+        vscode.commands.registerCommand('note2video.animateSelection', animateSelection),
+        vscode.commands.registerCommand('note2video.configureApiKey', configureApiKey),
+        vscode.commands.registerCommand('note2video.openLastVideo', openLastVideo),
     );
 
-    outputChannel.appendLine('[Algo Viz] Extension activated');
+    outputChannel.appendLine('[Note2Video] Extension activated');
 }
 
 // ── Animate entire MD file ─────────────────────────
@@ -60,7 +60,7 @@ async function animateSelection() {
 
     // Write selection to a temp MD file
     const docDir = path.dirname(editor.document.uri.fsPath);
-    const tmpFile = path.join(docDir, '_algo_viz_selection.md');
+    const tmpFile = path.join(docDir, '_note2video_selection.md');
     fs.writeFileSync(tmpFile, selectedText, 'utf-8');
 
     try {
@@ -74,7 +74,7 @@ async function animateSelection() {
 // ── Configure API key ──────────────────────────────
 
 async function configureApiKey() {
-    const config = vscode.workspace.getConfiguration('algoViz');
+    const config = vscode.workspace.getConfiguration('note2video');
     const currentPlatform = config.get<string>('platform', 'openrouter');
 
     const platform = await vscode.window.showQuickPick(
@@ -92,7 +92,7 @@ async function configureApiKey() {
 
     await config.update('platform', platform, vscode.ConfigurationTarget.Global);
     await config.update('apiKey', key, vscode.ConfigurationTarget.Global);
-    vscode.window.showInformationMessage(`Algo Viz: ${platform} API key saved`);
+    vscode.window.showInformationMessage(`Note2Video: ${platform} API key saved`);
 }
 
 // ── Open last video ────────────────────────────────
@@ -108,7 +108,7 @@ async function openLastVideo() {
 // ── Core: run api_generate.py ──────────────────────
 
 async function runGeneration(mdFilePath: string) {
-    const config = vscode.workspace.getConfiguration('algoViz');
+    const config = vscode.workspace.getConfiguration('note2video');
     const pythonPath = config.get<string>('pythonPath', 'python');
     const scriptPath = config.get<string>('apiGeneratePath', '');
     const platform = config.get<string>('platform', 'openrouter');
@@ -119,7 +119,7 @@ async function runGeneration(mdFilePath: string) {
     if (!scriptPath || !fs.existsSync(scriptPath)) {
         vscode.window.showErrorMessage(
             `api_generate.py not found at: ${scriptPath}\n` +
-            'Configure in Settings > Algo Viz > Api Generate Path'
+            'Configure in Settings > Note2Video > Api Generate Path'
         );
         return;
     }
@@ -138,8 +138,8 @@ async function runGeneration(mdFilePath: string) {
     const fileName = path.basename(mdFilePath, '.md');
     outputChannel.show(true);
     outputChannel.appendLine(`\n${'='.repeat(60)}`);
-    outputChannel.appendLine(`[Algo Viz] Generating animation for: ${fileName}`);
-    outputChannel.appendLine(`[Algo Viz] Platform: ${platform} | Model: ${model} | Quality: ${quality}`);
+    outputChannel.appendLine(`[Note2Video] Generating animation for: ${fileName}`);
+    outputChannel.appendLine(`[Note2Video] Platform: ${platform} | Model: ${model} | Quality: ${quality}`);
     outputChannel.appendLine(`${'='.repeat(60)}\n`);
 
     // Build env with API key
@@ -158,7 +158,7 @@ async function runGeneration(mdFilePath: string) {
 
     await vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
-        title: `Algo Viz: Generating "${fileName}"...`,
+        title: `Note2Video: Generating "${fileName}"...`,
         cancellable: true,
     }, async (progress, token) => {
 
@@ -206,14 +206,14 @@ async function runGeneration(mdFilePath: string) {
 
             token.onCancellationRequested(() => {
                 proc.kill();
-                outputChannel.appendLine('\n[Algo Viz] Cancelled by user');
+                outputChannel.appendLine('\n[Note2Video] Cancelled by user');
                 resolve();
             });
 
             proc.on('close', (code) => {
                 if (code === 0 && foundVideo && fs.existsSync(foundVideo)) {
                     lastVideoPath = foundVideo;
-                    outputChannel.appendLine(`\n[Algo Viz] Success! Video: ${foundVideo}`);
+                    outputChannel.appendLine(`\n[Note2Video] Success! Video: ${foundVideo}`);
 
                     vscode.window.showInformationMessage(
                         `Animation ready: ${path.basename(foundVideo)}`,
@@ -231,16 +231,16 @@ async function runGeneration(mdFilePath: string) {
                         }
                     });
                 } else if (code !== 0) {
-                    outputChannel.appendLine(`\n[Algo Viz] Failed with code ${code}`);
+                    outputChannel.appendLine(`\n[Note2Video] Failed with code ${code}`);
                     vscode.window.showErrorMessage(
-                        `Animation generation failed. Check Output > Algo Viz for details.`
+                        `Animation generation failed. Check Output > Note2Video for details.`
                     );
                 }
                 resolve();
             });
 
             proc.on('error', (err) => {
-                outputChannel.appendLine(`\n[Algo Viz] Error: ${err.message}`);
+                outputChannel.appendLine(`\n[Note2Video] Error: ${err.message}`);
                 vscode.window.showErrorMessage(`Failed to start: ${err.message}`);
                 resolve();
             });
@@ -252,7 +252,7 @@ async function runGeneration(mdFilePath: string) {
 
 function showVideoPreview(videoPath: string) {
     const panel = vscode.window.createWebviewPanel(
-        'algoVizPreview',
+        'note2videoPreview',
         `Preview: ${path.basename(videoPath)}`,
         vscode.ViewColumn.Beside,
         {
