@@ -1,0 +1,110 @@
+{
+  "name": "algo-viz",
+  "displayName": "Algo Viz - MD to Animation",
+  "description": "Convert Markdown notes to 3Blue1Brown-style teaching animations using Manim + LLM",
+  "version": "0.1.0",
+  "publisher": "24kchengYe",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Education", "Visualization", "Other"],
+  "keywords": ["manim", "animation", "3blue1brown", "algorithm", "visualization", "markdown"],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "algo-viz.animateFile",
+        "title": "Algo Viz: Animate This File",
+        "icon": "$(play)"
+      },
+      {
+        "command": "algo-viz.animateSelection",
+        "title": "Algo Viz: Animate Selection"
+      },
+      {
+        "command": "algo-viz.configureApiKey",
+        "title": "Algo Viz: Configure API Key"
+      },
+      {
+        "command": "algo-viz.openLastVideo",
+        "title": "Algo Viz: Open Last Video"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceLangId == markdown",
+          "command": "algo-viz.animateFile",
+          "group": "algo-viz@1"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "editorLangId == markdown",
+          "command": "algo-viz.animateFile",
+          "group": "algo-viz@1"
+        },
+        {
+          "when": "editorHasSelection",
+          "command": "algo-viz.animateSelection",
+          "group": "algo-viz@2"
+        }
+      ],
+      "editor/title": [
+        {
+          "when": "editorLangId == markdown",
+          "command": "algo-viz.animateFile",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Algo Viz",
+      "properties": {
+        "algoViz.pythonPath": {
+          "type": "string",
+          "default": "python",
+          "description": "Path to Python executable"
+        },
+        "algoViz.apiGeneratePath": {
+          "type": "string",
+          "default": "D:/pythonPycharms/My_jupyerlab/tools/algo-viz/api_generate.py",
+          "description": "Path to api_generate.py"
+        },
+        "algoViz.platform": {
+          "type": "string",
+          "enum": ["openrouter", "mindcraft", "ablai"],
+          "default": "openrouter",
+          "description": "LLM API platform"
+        },
+        "algoViz.model": {
+          "type": "string",
+          "default": "qwen/qwen3-235b-a22b",
+          "description": "LLM model name"
+        },
+        "algoViz.quality": {
+          "type": "string",
+          "enum": ["l", "m", "h"],
+          "default": "m",
+          "description": "Video quality: l=480p, m=720p, h=1080p"
+        },
+        "algoViz.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API key (stored in VS Code settings, or use .env file)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  }
+}
